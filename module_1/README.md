@@ -62,4 +62,4 @@ sui client call \
   ### Troubleshooting
 
 - Make sure Sui CLI is configured and you have the SUI gas coin on the selected network.
-- If you see type or module import errors, ensure you’re on a recent Sui CLI.
+- If you see type or module import errors, ensure you’re on the most recent version of the Sui CLI.
