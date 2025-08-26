@@ -42,8 +42,7 @@ sui client call \
   --package <PACKAGE_ID> \
   --module simple_nft \
   --function create_simple_nft \
-  --args "My First NFT" \
-  --gas-budget 100000000
+  --args "My First NFT"
 ```
 
 ### Implementation guide (mapping to TODOs)
