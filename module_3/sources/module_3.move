@@ -3,6 +3,7 @@ module module_3::hero;
     use std::string::String;
     use sui::coin::{Self, Coin};
     use sui::sui::SUI;
+    use sui::event;
     
     // ========= STRUCTS =========
     public struct Hero has key, store {
@@ -24,6 +25,25 @@ module module_3::hero;
         // TODO: Add the fields for the HeroMetadata
         // 1. The id of the HeroMetadata
         // 2. The timestamp of the HeroMetadata
+    }
+
+    // ========= EVENTS =========
+
+    public struct HeroListed has copy, drop {
+        // TODO: Add the fields for the HeroListed
+        // 1. The id of the HeroListed
+        // 2. The price of the Hero
+        // 3. The seller of the Hero
+        // 4. The timestamp of the HeroListed
+    }
+
+    public struct HeroBought has copy, drop {
+        // TODO: Add the fields for the HeroBought
+        // 1. The id of the HeroBought
+        // 2. The price of the Hero
+        // 3. The buyer of the Hero
+        // 4. The seller of the Hero
+        // 5. The timestamp of the HeroBought
     }
 
     // ========= FUNCTIONS =========
@@ -49,6 +69,7 @@ module module_3::hero;
     }
 
 
+
     public entry fun list_hero(nft: Hero, price: u64, ctx: &mut TxContext) {
         // TODO: Define the ListHero object,
         let list_hero = ListHero {
@@ -59,6 +80,8 @@ module module_3::hero;
             // 4. The seller of the Hero (the sender)
         };
 
+        // TODO: Emit the HeroListed event
+
         // TODO: Share the ListHero object 
         
     }
@@ -68,6 +91,7 @@ module module_3::hero;
         // TODO: Assert the price of the Hero is equal to the coin amount
         // TODO: Transfer the coin to the seller
         // TODO: Transfer the Hero object to the sender
+        // TODO: Emit the HeroBought event
         // TODO: Destroy the ListHero object
     }
 
