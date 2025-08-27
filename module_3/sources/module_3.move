@@ -3,6 +3,7 @@ module module_3::hero;
     use std::string::String;
     use sui::coin::{Self, Coin};
     use sui::sui::SUI;
+    use sui::event;
     
     // ========= STRUCTS =========
     public struct Hero has key, store {
@@ -21,6 +22,23 @@ module module_3::hero;
 
     public struct HeroMetadata has key, store {
         id: UID,
+        timestamp: u64,
+    }
+
+    // ========= EVENTS =========
+
+    public struct HeroListed has copy, drop {
+        id: ID,
+        price: u64,
+        seller: address,
+        timestamp: u64,
+    }
+
+    public struct HeroBought has copy, drop {
+        id: ID,
+        price: u64,
+        buyer: address,
+        seller: address,
         timestamp: u64,
     }
 
@@ -46,6 +64,7 @@ module module_3::hero;
     }
 
 
+
     public entry fun list_hero(nft: Hero, price: u64, ctx: &mut TxContext) {
         let list_hero = ListHero {
             id: object::new(ctx),
@@ -53,6 +72,13 @@ module module_3::hero;
             price,
             seller: ctx.sender(),
         };
+
+        event::emit(HeroListed {
+            id: object::id(&list_hero),
+            price,
+            seller: ctx.sender(),
+            timestamp: ctx.epoch_timestamp_ms(),
+        });
 
         transfer::share_object(list_hero);
     }
@@ -65,6 +91,14 @@ module module_3::hero;
         transfer::public_transfer(coin, seller);
 
         transfer::public_transfer(nft, ctx.sender());
+
+        event::emit(HeroBought {
+            id: id.to_inner(),
+            price,
+            buyer: ctx.sender(),
+            seller,
+            timestamp: ctx.epoch_timestamp_ms(),
+        });
 
         id.delete();
     }
