@@ -7,12 +7,15 @@ A learning-oriented Sui Move module that models a simple NFT-like `Hero` object 
 - **Module**: `module_3::hero`
 - **Structs**:
   - **Hero**: key object with `name`, `image_url`, `power`.
-  - **HeroMetadata**: immutable metadata (to be completed) that records creation timestamp, etc.
+  - **HeroMetadata**: immutable metadata object with unique `id` and creation `timestamp`.
   - **ListHero**: shared listing object that holds a `Hero`, its `price`, and the `seller` address.
+- **Events**:
+  - **HeroListed**: emitted when a hero is listed for sale with `id`, `price`, `seller`, and `timestamp`.
+  - **HeroBought**: emitted when a hero is purchased with `id`, `price`, `buyer`, `seller`, and `timestamp`.
 - **Entry functions**:
   - `create_hero(name: String, image_url: String, power: u64, ctx: &mut TxContext)` — mint a `Hero` to the sender and create/freeze metadata.
-  - `list_hero(nft: Hero, price: u64, ctx: &mut TxContext)` — create and share a listing for a `Hero` at a fixed price.
-  - `buy_hero(list_hero: &mut ListHero, coin: Coin<SUI>)` — buy the hero using SUI at exactly the asking price.
+  - `list_hero(nft: Hero, price: u64, ctx: &mut TxContext)` — create and share a listing for a `Hero` at a fixed price, emits `HeroListed` event.
+  - `buy_hero(list_hero: ListHero, coin: Coin<SUI>, ctx: &mut TxContext)` — buy the hero using SUI at exactly the asking price, emits `HeroBought` event.
   - `transfer_hero(hero: Hero, to: address)` — transfer a `Hero` to another address.
 
 ### Prerequisites
@@ -126,7 +129,7 @@ sui client call \
 
 ### Implementation guide (mapping to TODOs)
 
-Helpful Sui modules you’ll likely use: `sui::object`, `sui::transfer`, `sui::clock`, `sui::tx_context`, and `sui::coin`.
+Helpful Sui modules you’ll likely use: `sui::object`, `sui::transfer`, `sui::tx_context`, and `sui::coin`.
 
 - **HeroMetadata**:
   - Add `id: UID` and a `timestamp: u64` (e.g., epoch time from `clock`).
@@ -134,12 +137,13 @@ Helpful Sui modules you’ll likely use: `sui::object`, `sui::transfer`, `sui::c
 
 - **ListHero**:
   - Add `id: UID`, `nft: Hero`, `price: u64`, `seller: address`.
-  - In `list_hero`, initialize with `object::new(ctx)`, set `seller` to `ctx.sender()`, and share the object.
+  - In `list_hero`, initialize with `object::new(ctx)`, set `seller` to `ctx.sender()`, emit the `HeroListed`event, and share the object.
 
 - **buy_hero**:
   - Deconstruct the `list_hero` object.
   - Assert `coin::value(&coin) == price`.
   - Transfer the SUI `coin` to `seller` and the `Hero` to the buyer (sender).
+  - Emit the `HeroBought` event
   - Properly remove/destroy the `ListHero` once the purchase completes.
 
 ### Troubleshooting
