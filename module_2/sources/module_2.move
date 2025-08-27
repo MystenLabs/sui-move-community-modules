@@ -21,14 +21,17 @@ module module_2::hero {
     
     // ========= GETTER FUNCTIONS =========
 
+    #[test_only]
     public fun hero_name(hero: &Hero): String {
         hero.name
     }
-    
+
+    #[test_only]
     public fun hero_power(hero: &Hero): u64 {
         hero.power
     }
     
+    #[test_only]
     public fun hero_image_url(hero: &Hero): String {
         hero.image_url
     }
