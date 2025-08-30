@@ -117,6 +117,7 @@ web_modules/
 # Vite build output
 dist/
 dist-ssr/
+.vite/
 
 # Rollup build output
 build/

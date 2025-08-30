@@ -67,7 +67,7 @@ function App() {
 
           {/* Events History Section */}
           <Box>
-            <EventsHistory refreshKey={refreshKey} />
+            <EventsHistory refreshKey={refreshKey} setRefreshKey={setRefreshKey} />
           </Box>
 
         </Flex>

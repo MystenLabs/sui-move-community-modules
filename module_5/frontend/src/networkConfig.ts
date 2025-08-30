@@ -6,19 +6,19 @@ const { networkConfig, useNetworkVariable, useNetworkVariables } =
     devnet: {
       url: getFullnodeUrl("devnet"),
       variables: {
-        packageId: "0x[INSTRUCTOR_PROVIDED_PACKAGE_ID]", // TODO: Get package ID from instructor
+        packageId: "", // TODO: Get package ID from instructor
       },
     },
     testnet: {
       url: getFullnodeUrl("testnet"),
       variables: {
-        packageId: "0x[INSTRUCTOR_PROVIDED_PACKAGE_ID]", // TODO: Get package ID from instructor
+        packageId: import.meta.env.VITE_PACKAGE_ID, // TODO: Get package ID from instructor
       },
     },
     mainnet: {
       url: getFullnodeUrl("mainnet"),
       variables: {
-        packageId: "0x[INSTRUCTOR_PROVIDED_PACKAGE_ID]", // TODO: Get package ID from instructor
+        packageId: "", // TODO: Get package ID from instructor
       },
     },
   });

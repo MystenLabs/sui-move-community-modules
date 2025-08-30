@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
           <RegisterEnokiWallets />
-          <WalletProvider autoConnect>
+          <WalletProvider>
             <App />
           </WalletProvider>
         </SuiClientProvider>
@@ -36,7 +36,6 @@ function RegisterEnokiWallets() {
 		const { unregister } = registerEnokiWallets({
 			apiKey: import.meta.env.VITE_ENOKI_PUBLIC_KEY,
 			providers: {
-				// Provide the client IDs for each of the auth providers you want to use:
 				google: {
 					clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
 				},
