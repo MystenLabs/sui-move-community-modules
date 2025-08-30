@@ -1,16 +1,18 @@
-import { useCurrentAccount, useSuiClientQuery, useSignTransaction } from "@mysten/dapp-kit";
+import { useCurrentAccount, useSuiClientQuery, useSignTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { Flex, Heading, Text, Card, Grid, Button, Badge } from "@radix-ui/themes";
 import { useState } from "react";
 import { useNetworkVariable } from "../networkConfig";
 import { ListHero } from "../types/hero";
 import { buyHeroAPI, executeTransactionAPI } from "../utils/api";
 import { RefreshProps } from "../types/props";
+import { fetchSuiCoins, findSuitableCoin, suiToMist } from "../utils/coinUtils";
 
 export default function SharedObjects({ refreshKey, setRefreshKey }: RefreshProps) {
   const account = useCurrentAccount();
   const packageId = useNetworkVariable("packageId");
   const [isBuying, setIsBuying] = useState<{ [key: string]: boolean }>({});
   const { mutateAsync: signTransaction } = useSignTransaction();
+  const suiClient = useSuiClient();
 
   const { data: listedEvents, isPending: eventsLoading } = useSuiClientQuery(
     "queryEvents",
@@ -48,10 +50,34 @@ export default function SharedObjects({ refreshKey, setRefreshKey }: RefreshProp
     setIsBuying(prev => ({ ...prev, [listHeroId]: true }));
     
     try {
-      // 1. Get sponsored transaction from backend
-      const sponsored = await buyHeroAPI(account.address, packageId, listHeroId, priceInSui.toString());
+      // 1. Fetch user's SUI coins
+      console.log("Fetching SUI coins for address:", account.address);
+      const suiCoins = await fetchSuiCoins(suiClient, account.address);
       
-      // 2. Sign the transaction
+      if (suiCoins.length === 0) {
+        throw new Error('No SUI coins found in wallet');
+      }
+
+      // 2. Find a suitable coin for payment
+      const requiredAmountInMist = suiToMist(priceInSui);
+      const suitableCoin = findSuitableCoin(suiCoins, requiredAmountInMist);
+      
+      if (!suitableCoin) {
+        throw new Error(`Insufficient SUI balance. Required: ${priceInSui} SUI`);
+      }
+
+      console.log("Using coin:", suitableCoin.coinObjectId, "with balance:", suitableCoin.balance);
+
+      // 3. Get sponsored transaction from backend with payment coin
+      const sponsored = await buyHeroAPI(
+        account.address, 
+        packageId, 
+        suitableCoin.coinObjectId, 
+        listHeroId, 
+        priceInSui.toString()
+      );
+      
+      // 4. Sign the transaction
       const { signature } = await signTransaction({
         transaction: sponsored.bytes,
       });
@@ -60,7 +86,7 @@ export default function SharedObjects({ refreshKey, setRefreshKey }: RefreshProp
         throw new Error('Failed to sign transaction');
       }
 
-      // 3. Execute the sponsored transaction
+      // 5. Execute the sponsored transaction
       await executeTransactionAPI(sponsored.digest, signature);
       
       console.log("Hero bought successfully!");

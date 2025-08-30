@@ -1,4 +1,4 @@
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+const BACKEND_URL = process.env.VITE_BACKEND_URL || 'http://localhost:3001';
 
 // Simple API call helper
 export async function makeApiCall(endpoint: string, data: any) {
@@ -26,8 +26,8 @@ export async function listHeroAPI(sender: string, packageId: string, heroId: str
   return makeApiCall('/api/list-hero', { sender, packageId, heroId, price });
 }
 
-export async function buyHeroAPI(sender: string, packageId: string, listHeroId: string, price: string) {
-  return makeApiCall('/api/buy-hero', { sender, packageId, listHeroId, price });
+export async function buyHeroAPI(sender: string, packageId: string, paymentCoinObject: string, listHeroId: string, price: string) {
+  return makeApiCall('/api/buy-hero', { sender, packageId, paymentCoinObject, listHeroId, price });
 }
 
 export async function transferHeroAPI(sender: string, packageId: string, heroId: string, recipient: string) {
