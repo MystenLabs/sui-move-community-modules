@@ -4,7 +4,6 @@ module module_3::module_3_tests {
     use sui::test_scenario::{Self as ts, next_tx};
     use sui::coin;
     use sui::sui::SUI;
-    use std::string;
 
     // Error codes for assertions
     const EHeroNameMismatch: u64 = 1;
