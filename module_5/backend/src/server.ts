@@ -8,7 +8,7 @@ import { createHero } from './utility/create_hero';
 import { listHero } from './utility/list_hero';
 import { buyHero } from './utility/buy_hero';
 import { transferHero } from './utility/transfer_hero';
-import { logTransaction, logRequest, logServer, logError } from './utility/logger';
+import { logTransaction, logRequest, logServer, logError } from './helpers/logger';
 
 dotenv.config();
 
