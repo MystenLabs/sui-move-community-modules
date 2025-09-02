@@ -1,4 +1,4 @@
-const BACKEND_URL = process.env.VITE_BACKEND_URL || 'http://localhost:3001';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
 
 // Simple API call helper
 export async function makeApiCall(endpoint: string, data: any) {
