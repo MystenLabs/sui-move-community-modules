@@ -32,18 +32,9 @@ module module_3::hero;
         price: u64,
         seller: address,
         timestamp: u64,
-        id: ID,
-        price: u64,
-        seller: address,
-        timestamp: u64,
     }
 
     public struct HeroBought has copy, drop {
-        id: ID,
-        price: u64,
-        buyer: address,
-        seller: address,
-        timestamp: u64,
         id: ID,
         price: u64,
         buyer: address,
