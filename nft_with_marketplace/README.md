@@ -144,6 +144,50 @@ A comprehensive example that:
    ./ptbs.sh
    ```
 
+### 4. TypeScript PTBs (`ts-ptbs/`)
+
+The `ts-ptbs/` directory contains TypeScript implementations of Programmable Transaction Blocks using the Sui TypeScript SDK. This provides a more developer-friendly approach for building complex transactions.
+
+#### Features
+
+- **Type Safety**: Full TypeScript support with proper type definitions
+- **Modular Design**: Separated utility functions for transaction execution
+- **Environment Configuration**: Uses `.env` files for secure configuration
+- **Multiple Examples**: Various transaction patterns and workflows
+
+#### Setup
+
+1. Navigate to the ts-ptbs directory:
+
+   ```bash
+   cd ts-ptbs
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Configure environment:
+
+   ```bash
+   cp .env.example .env
+   # Edit .env with your private key and configuration
+   ```
+
+4. Run the examples:
+   ```bash
+   npm start
+   ```
+
+#### Examples Included
+
+- **Mint and Burn**: Basic NFT lifecycle operations
+- **Mint and List**: Create and list NFTs for sale
+- **Buy and Transfer**: Purchase NFTs and transfer ownership
+- **Complete Workflow**: End-to-end marketplace operations in a single transaction
+
 ### Testing
 
 Run the test suite:
