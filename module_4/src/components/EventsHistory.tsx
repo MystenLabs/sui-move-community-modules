@@ -1,10 +1,7 @@
 import { useSuiClientQuery } from "@mysten/dapp-kit";
 import { Flex, Heading, Text, Card, Badge, Grid } from "@radix-ui/themes";
 import { useNetworkVariable } from "../networkConfig";
-
-interface RefreshProps {
-  refreshKey: number;
-}
+import { RefreshProps } from "../types/props";
 
 export default function EventsHistory({ refreshKey }: RefreshProps) {
   const packageId = useNetworkVariable("packageId");
