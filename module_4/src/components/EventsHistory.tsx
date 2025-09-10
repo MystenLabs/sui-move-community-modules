@@ -6,7 +6,11 @@ import { RefreshProps } from "../types/props";
 export default function EventsHistory({ refreshKey }: RefreshProps) {
   const packageId = useNetworkVariable("packageId");
 
-  const { data: listedEvents, isPending: isListedPending } = useSuiClientQuery(
+  const {
+    data: listedEvents,
+    isPending: isListedPending,
+    error: hasListedError,
+  } = useSuiClientQuery(
     "queryEvents",
     {
       query: {
@@ -21,7 +25,11 @@ export default function EventsHistory({ refreshKey }: RefreshProps) {
     },
   );
 
-  const { data: boughtEvents, isPending: isBoughtPending } = useSuiClientQuery(
+  const {
+    data: boughtEvents,
+    isPending: isBoughtPending,
+    error: hasBoughtError,
+  } = useSuiClientQuery(
     "queryEvents",
     {
       query: {
@@ -50,9 +58,24 @@ export default function EventsHistory({ refreshKey }: RefreshProps) {
 
   if (isListedPending || isBoughtPending) {
     return (
-      <Card>
-        <Text>Loading events history...</Text>
-      </Card>
+      <Flex direction="column" gap="4">
+        <Heading size="6">Recent Events</Heading>
+        <Card>
+          <Text>Loading events history...</Text>
+        </Card>
+      </Flex>
+    );
+  }
+
+  if (hasListedError || hasBoughtError) {
+    const errorMessage = hasListedError?.message || hasBoughtError?.message;
+    return (
+      <Flex direction="column" gap="4">
+        <Heading size="6">Recent Events</Heading>
+        <Card>
+          <Text color="red">Error loading events: {errorMessage}</Text>
+        </Card>
+      </Flex>
     );
   }
 
