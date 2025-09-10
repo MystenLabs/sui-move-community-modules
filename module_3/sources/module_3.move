@@ -20,7 +20,7 @@ module module_3::hero;
             // Hint: The nft is a Hero object so the type is Hero
         // 3. The price of the Hero
         // 4. The seller of the Hero
-            //Hint seller type is address
+            // Hint: The seller type is the address
     }
 
     public struct HeroMetadata has key, store {
