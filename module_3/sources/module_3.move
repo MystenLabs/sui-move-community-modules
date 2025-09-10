@@ -97,7 +97,7 @@ module module_3::hero;
         // TODO: Transfer the coin to the seller
         // TODO: Transfer the Hero object to the sender
         // TODO: Emit the HeroBought event
-            //Hint id is an UID type so it can be converted ID type with .to_inner() function
+            // Hint: The id is an UID type so it can be converted ID type with .to_inner() function
         // TODO: Destroy the ListHero object
     }
 
