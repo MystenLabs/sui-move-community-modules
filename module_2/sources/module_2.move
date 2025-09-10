@@ -18,7 +18,7 @@ module module_2::hero {
 
     public entry fun transfer_hero(hero: Hero, to: address) {
         // TODO: Transfer the Hero object to the recipient
-          //Hint: transfers can be called with transfer:: ...... function
+          // Hint: transfers can be called with transfer:: ...... function
     }
     
     // ========= GETTER FUNCTIONS =========
