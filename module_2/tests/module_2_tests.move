@@ -11,7 +11,6 @@ use sui::test_scenario::{Self as ts, next_tx};
  const EHeroPowerMismatch: u64 = 3;
  const EHeroNotCreated: u64 = 4;
  const EHeroNotTransferred: u64 = 5;
- const EHeroCannotTransferToSelf: u64 = 6;
 
 const SENDER: address = @0x1;
 const RECIPIENT: address = @0x2;

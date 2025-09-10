@@ -11,6 +11,38 @@ An introductory Sui Move module that defines a simple `Hero` object and two entr
   - `create_hero(name: String, image_url: String, power: u64, ctx: &mut TxContext)` — create a `Hero` and transfer it to the sender.
   - `transfer_hero(hero: Hero, to: address)` — transfer a `Hero` to another address.
 
+### Implementation Guide (Object Transfer)
+
+In Sui Move, objects can be transferred in **3 main ways**:
+
+#### 1. `transfer::public_transfer(obj, recipient)`
+
+- **Ownership**: The object becomes **owned** by the specified recipient
+- **Access**: Only the owner can interact with the object
+- **Transferable**: The owner can transfer it to others
+- **Example**: `transfer::public_transfer(hero, ctx.sender())` - transfers hero to the transaction sender
+
+#### 2. `transfer::share_object(obj)`
+
+- **Ownership**: The object becomes **shared** (not owned by anyone)
+- **Access**: Anyone can interact with the object (subject to capability restrictions)
+- **Use Case**: Perfect for marketplace listings, shared resources, or public objects
+- **Example**: `transfer::share_object(list_hero)` - makes a hero listing available to everyone
+
+#### 3. `transfer::freeze_object(obj)`
+
+- **Ownership**: The object becomes **immutable** and unowned
+- **Access**: No one can modify the object (read-only)
+- **Use Case**: Metadata, historical records, or permanent data
+- **Example**: `transfer::freeze_object(hero_metadata)` - makes hero metadata permanent
+
+#### Key Differences:
+
+- **`transfer::transfer()`** is an alias for `transfer::public_transfer()` - both transfer ownership
+- **Shared objects** require consensus and have higher gas costs
+- **Frozen objects** cannot be modified after freezing
+- **Owned objects** are the most efficient and commonly used
+
 ### Build and test
 
 From the repository root:
@@ -25,7 +57,7 @@ sui move test
 From the repository root, publish just this package:
 
 ```bash
-sui client publish 
+sui client publish
 ```
 
 Save the returned `packageId` for subsequent calls.
@@ -34,7 +66,7 @@ Save the returned `packageId` for subsequent calls.
 
 Replace placeholders like `<PACKAGE_ID>`, `<HERO_ID>`, and `<RECIPIENT_ADDRESS>` with real values.
 
-1) Create a hero
+1. Create a hero
 
 ```bash
 sui client call \
@@ -45,7 +77,7 @@ sui client call \
   --gas-budget 100000000
 ```
 
-2) Transfer a hero
+2. Transfer a hero
 
 ```bash
 sui client call \
@@ -69,5 +101,3 @@ sui client call \
 
 - Make sure Sui CLI is configured and you have gas on the selected network.
 - If you see type or module import errors, ensure you’re on a recent Sui CLI.
-
-

@@ -1,17 +1,23 @@
 ## Module 4 — Hero NFT DApp (React + Sui dApp Kit)
 
-A learning-oriented React DApp that interacts with the `module_3::hero` smart contract. This application provides a complete NFT marketplace experience where users can create, transfer, list, and buy Hero NFTs. The code intentionally leaves utility function implementations as TODOs to be completed while following along.
+A learning-oriented React DApp that interacts with the `module_3::hero` smart
+contract. This application provides a complete NFT marketplace experience where
+users can create, transfer, list, and buy Hero NFTs. The code intentionally
+leaves utility function implementations as TODOs to be completed while following
+along.
 
 ### What's inside
 
 - **Frontend Framework**: React + TypeScript + Vite
-- **Sui Integration**: @mysten/dapp-kit for wallet connection and blockchain interaction
+- **Sui Integration**: @mysten/dapp-kit for wallet connection and blockchain
+  interaction
 - **UI Framework**: Radix UI for modern, accessible components
 - **Smart Contract Integration**: Connects to `module_3::hero` Move module
 - **Features**:
   - **Wallet Connection**: Connect/disconnect Sui wallet with balance display
   - **Hero Creation**: Mint new Hero NFTs with name, image, and power
-  - **Hero Management**: View owned heroes with transfer and listing capabilities
+  - **Hero Management**: View owned heroes with transfer and listing
+    capabilities
   - **NFT Marketplace**: Browse and purchase listed heroes from other users
   - **Event History**: Track all HeroListed and HeroBought events
   - **Real-time Updates**: Automatic UI refresh after each transaction
@@ -55,7 +61,8 @@ npm install
 
 #### 2. Configure Package ID
 
-**⚠️ IMPORTANT**: Get the `packageId` from your instructor and add it to `src/networkConfig.ts`:
+**⚠️ IMPORTANT**: Get the `packageId` from your instructor and add it to
+`src/networkConfig.ts`:
 
 ```typescript
 const { networkConfig } = createNetworkConfig({
@@ -66,7 +73,7 @@ const { networkConfig } = createNetworkConfig({
     },
   },
   testnet: {
-    url: getFullnodeUrl("testnet"), 
+    url: getFullnodeUrl("testnet"),
     variables: {
       packageId: "0x[INSTRUCTOR_PROVIDED_PACKAGE_ID]", // 👈 Replace this
     },
@@ -75,58 +82,121 @@ const { networkConfig } = createNetworkConfig({
 });
 ```
 
-**Why instructor's Package ID?**
-Using the same package ID ensures all students interact with the same smart contract deployment, enabling a shared marketplace where everyone can buy/sell heroes from each other.
+**Why instructor's Package ID?** Using the same package ID ensures all students
+interact with the same smart contract deployment, enabling a shared marketplace
+where everyone can buy/sell heroes from each other.
 
 #### 3. Complete Utility Functions (TODOs)
 
-Navigate to `src/utility/` and complete the Programmatic Transaction Block (PTB) implementations:
+### Smart Contract Functions
+
+The DApp interacts with these `module_3::hero` functions:
+
+- **`create_hero(name, image_url, power)`** — Mint a new Hero NFT
+- **`transfer_hero(hero, to)`** — Transfer hero to another address
+- **`list_hero(hero, price)`** — List hero for sale in marketplace
+- **`buy_hero(list_hero, coin)`** — Purchase a listed hero
+
+### Implementation Guide (PTB Mapping)
+
+#### Transaction Structure
+
+```typescript
+import { Transaction } from "@mysten/sui/transactions";
+
+const tx = new Transaction();
+tx.moveCall({
+  target: `${packageId}::hero::function_name`,
+  arguments: [
+    /* your arguments */
+  ],
+});
+```
+
+#### Argument Types
+
+- **Strings**: `tx.pure.string(value)`
+- **Numbers**: `tx.pure.u64(value)`
+- **Addresses**: `tx.pure.address(value)`
+- **Objects**: `tx.object(objectId)`
+- **Coins**: `tx.splitCoins(tx.gas, [amount])`
+
+#### SUI ↔ MIST Conversion
+
+```typescript
+// SUI to MIST (for blockchain)
+const mistAmount = Number(suiAmount) * 1_000_000_000;
+
+// MIST to SUI (for display)
+const suiAmount = Number(mistAmount) / 1_000_000_000;
+```
+
+Navigate to `src/utility/` and complete the Programmatic Transaction Block (PTB)
+
+#### Implementation
 
 **File: `src/utility/create_hero.ts`**
+
 ```typescript
-export const createHero = (packageId: string, name: string, imageUrl: string, power: string) => {
+export const createHero = (
+  packageId: string,
+  name: string,
+  imageUrl: string,
+  power: string,
+) => {
   const tx = new Transaction();
-  
+
   // TODO: Add moveCall for module_3::hero::create_hero
   // Hint: Use tx.pure.string() for strings and tx.pure.u64() for numbers
-  
+
   return tx;
 };
 ```
 
 **File: `src/utility/transfer_hero.ts`**
+
 ```typescript
 export const transferHero = (packageId: string, heroId: string, to: string) => {
   const tx = new Transaction();
-  
+
   // TODO: Add moveCall for module_3::hero::transfer_hero
   // Hint: Use tx.object() for object IDs and tx.pure.address() for addresses
-  
+
   return tx;
 };
 ```
 
 **File: `src/utility/list_hero.ts`**
+
 ```typescript
-export const listHero = (packageId: string, heroId: string, priceInSui: string) => {
+export const listHero = (
+  packageId: string,
+  heroId: string,
+  priceInSui: string,
+) => {
   const tx = new Transaction();
-  
+
   // TODO: Convert SUI to MIST (1 SUI = 1,000,000,000 MIST)
   // TODO: Add moveCall for module_3::hero::list_hero
-  
+
   return tx;
 };
 ```
 
 **File: `src/utility/buy_hero.ts`**
+
 ```typescript
-export const buyHero = (packageId: string, listHeroId: string, priceInSui: string) => {
+export const buyHero = (
+  packageId: string,
+  listHeroId: string,
+  priceInSui: string,
+) => {
   const tx = new Transaction();
-  
+
   // TODO: Convert SUI to MIST
   // TODO: Use tx.splitCoins() to create payment coin from gas
   // TODO: Add moveCall for module_3::hero::buy_hero
-  
+
   return tx;
 };
 ```
@@ -150,59 +220,26 @@ npm run build
 ### Usage Guide
 
 1. **Connect Wallet**: Click "Connect Wallet" to link your Sui wallet
-2. **Create Heroes**: Fill the form to mint new Hero NFTs (name, image URL, power level)
-3. **Manage Heroes**: View your owned heroes, transfer to others, or list for sale
-4. **Browse Marketplace**: See all listed heroes from the class and purchase them
+2. **Create Heroes**: Fill the form to mint new Hero NFTs (name, image URL,
+   power level)
+3. **Manage Heroes**: View your owned heroes, transfer to others, or list for
+   sale
+4. **Browse Marketplace**: See all listed heroes from the class and purchase
+   them
 5. **Track Activity**: Monitor all listing and purchase events in real-time
-
-### Smart Contract Functions
-
-The DApp interacts with these `module_3::hero` functions:
-
-- **`create_hero(name, image_url, power)`** — Mint a new Hero NFT
-- **`transfer_hero(hero, to)`** — Transfer hero to another address
-- **`list_hero(hero, price)`** — List hero for sale in marketplace
-- **`buy_hero(list_hero, coin)`** — Purchase a listed hero
-
-### Implementation Guide (PTB Mapping)
-
-#### Transaction Structure
-```typescript
-import { Transaction } from "@mysten/sui/transactions";
-
-const tx = new Transaction();
-tx.moveCall({
-  target: `${packageId}::hero::function_name`,
-  arguments: [/* your arguments */],
-});
-```
-
-#### Argument Types
-- **Strings**: `tx.pure.string(value)`
-- **Numbers**: `tx.pure.u64(value)`
-- **Addresses**: `tx.pure.address(value)`
-- **Objects**: `tx.object(objectId)`
-- **Coins**: `tx.splitCoins(tx.gas, [amount])`
-
-#### SUI ↔ MIST Conversion
-```typescript
-// SUI to MIST (for blockchain)
-const mistAmount = Number(suiAmount) * 1_000_000_000;
-
-// MIST to SUI (for display)
-const suiAmount = Number(mistAmount) / 1_000_000_000;
-```
 
 ### Troubleshooting
 
-- **"Package not found"**: Verify package ID is correctly set in `networkConfig.ts`
+- **"Package not found"**: Verify package ID is correctly set in
+  `networkConfig.ts`
 - **Transaction fails**: Check wallet has sufficient SUI for gas fees
 - **Heroes not loading**: Ensure wallet is connected and on correct network
 - **Marketplace empty**: Wait for other users to list heroes, or list your own
 - **Buy button disabled**: Ensure exact price match and sufficient balance
-- **Linter warnings about unused parameters**: This is normal! The warnings will disappear as you complete the TODO functions in `src/utility/` files
-- **DApp not working**: Make sure all TODO implementations in utility functions are completed
-
+- **Linter warnings about unused parameters**: This is normal! The warnings will
+  disappear as you complete the TODO functions in `src/utility/` files
+- **DApp not working**: Make sure all TODO implementations in utility functions
+  are completed
 
 ### Tech Stack
 
@@ -224,5 +261,3 @@ By completing this module, you will learn:
 4. **Real-time Data**: Query and display blockchain data dynamically
 5. **Event Handling**: Listen to and display smart contract events
 6. **State Management**: Manage complex UI state with automatic updates
-
-
