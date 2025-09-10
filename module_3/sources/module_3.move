@@ -17,7 +17,7 @@ module module_3::hero;
         // TODO: Add the fields for the ListHero
         // 1. The id of the ListHero
         // 2. The nft object 
-            //Hint nft is a Hero object so the type is Hero
+            // Hint: The nft is a Hero object so the type is Hero
         // 3. The price of the Hero
         // 4. The seller of the Hero
             //Hint seller type is address
