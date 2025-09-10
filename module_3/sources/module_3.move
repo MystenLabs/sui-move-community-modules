@@ -62,7 +62,7 @@ module module_3::hero;
         let hero_metadata = HeroMetadata {
             id: // TODO: Create the HeroMetadata object,
             time_stamp: // TODO: Get the epoch timestamp 
-                        //Hint time_stamp type can be get from ctx.
+                        // Hint: The time_stamp type can be gotten from ctx.
         };
 
         transfer::transfer(hero, ctx.sender());
