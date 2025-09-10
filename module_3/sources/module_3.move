@@ -85,7 +85,7 @@ module module_3::hero;
 
         // TODO: Emit the HeroListed event
             // Hint: The event fields are id, price, seller, time_stamp
-            //Hint id can be get from list_hero, object::id() function is used to get the id of the object
+            // Hint: The id can be get from list_hero, object::id() function is used to get the id of the object
 
         // TODO: Share the ListHero object 
         
