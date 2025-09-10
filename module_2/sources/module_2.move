@@ -12,7 +12,7 @@ module module_2::hero {
     #[allow(lint(self_transfer))]
     public entry fun create_hero(name: String, image_url: String, power: u64,  ctx: &mut TxContext) {
         // TODO: Create the Hero object
-          //Hint object::new(ctx) function is used to create the object id  
+          // Hint: object::new(ctx) function is used to create the object id  
         // TODO: Transfer the Hero object to the sender
     }
 
