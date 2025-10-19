@@ -16,15 +16,17 @@ module module_3::hero;
     public struct ListHero has key, store {
         // TODO: Add the fields for the ListHero
         // 1. The id of the ListHero
-        // 2. The nft object
+        // 2. The nft object 
+            // Hint: The nft is a Hero object so the type is Hero
         // 3. The price of the Hero
         // 4. The seller of the Hero
+            // Hint: The seller type is the address
     }
 
     public struct HeroMetadata has key, store {
         // TODO: Add the fields for the HeroMetadata
         // 1. The id of the HeroMetadata
-        // 2. The timestamp of the HeroMetadata
+        // 2. The time_stamp of the HeroMetadata
     }
 
     // ========= EVENTS =========
@@ -34,7 +36,7 @@ module module_3::hero;
         // 1. The id of the HeroListed
         // 2. The price of the Hero
         // 3. The seller of the Hero
-        // 4. The timestamp of the HeroListed
+        // 4. The time_stamp of the HeroListed
     }
 
     public struct HeroBought has copy, drop {
@@ -43,7 +45,7 @@ module module_3::hero;
         // 2. The price of the Hero
         // 3. The buyer of the Hero
         // 4. The seller of the Hero
-        // 5. The timestamp of the HeroBought
+        // 5. The time_stamp of the HeroBought
     }
 
     // ========= FUNCTIONS =========
@@ -59,7 +61,8 @@ module module_3::hero;
 
         let hero_metadata = HeroMetadata {
             id: // TODO: Create the HeroMetadata object,
-            timestamp: // TODO: Get the epoch timestamp ,
+            time_stamp: // TODO: Get the epoch timestamp 
+                        // Hint: The time_stamp type can be gotten from ctx.
         };
 
         transfer::transfer(hero, ctx.sender());
@@ -74,13 +77,15 @@ module module_3::hero;
         // TODO: Define the ListHero object,
         let list_hero = ListHero {
             // TODO: Define the fields for the ListHero object
-            // 1. Create the object id for the ListHero object
+            // 1. Create the object id for the ListHero object  
             // 2. The nft object
             // 3. The price of the Hero
             // 4. The seller of the Hero (the sender)
         };
 
         // TODO: Emit the HeroListed event
+            // Hint: The event fields are id, price, seller, time_stamp
+            // Hint: The id can be get from list_hero, object::id() function is used to get the id of the object
 
         // TODO: Share the ListHero object 
         
@@ -92,6 +97,7 @@ module module_3::hero;
         // TODO: Transfer the coin to the seller
         // TODO: Transfer the Hero object to the sender
         // TODO: Emit the HeroBought event
+            // Hint: The id is an UID type so it can be converted ID type with .to_inner() function
         // TODO: Destroy the ListHero object
     }
 
