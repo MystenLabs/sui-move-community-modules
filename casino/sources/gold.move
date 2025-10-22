@@ -1,26 +1,27 @@
-module casino::gold {
-    use sui::coin::create_currency;
-    use sui::transfer::{public_freeze_object, public_transfer};
+module casino::gold;
 
-    public struct GOLD has drop {}
+use sui::coin::TreasuryCap;
+use sui::coin_registry::{CoinRegistry, new_currency};
+use sui::transfer::public_freeze_object;
 
-    fun init(otw: GOLD, ctx: &mut TxContext) {
-        let (treasury, metadata) = create_currency<GOLD>(
-            otw,
-            9,
-            b"GLD",
-            b"Casino Gold",
-            b"Completely legit",
-            option::none(),
-            ctx,
-        );
+public struct CasinoGold has key { id: UID }
 
-        public_freeze_object(metadata);
-        public_transfer(treasury, ctx.sender())
-    }
+public fun register_gold(
+    registry: &mut CoinRegistry,
+    ctx: &mut TxContext,
+): TreasuryCap<CasinoGold> {
+    let (initializer, treasury) = new_currency<CasinoGold>(
+        registry,
+        9,
+        b"GLD".to_string(),
+        b"Casino Gold".to_string(),
+        b"Completely legit".to_string(),
+        b"https://example_icon_url.com".to_string(),
+        ctx,
+    );
 
-    #[test_only]
-    public fun test_init(otw: GOLD, ctx: &mut TxContext) {
-        init(otw, ctx);
-    }
+    let metadata = initializer.finalize(ctx);
+
+    public_freeze_object(metadata);
+    treasury
 }

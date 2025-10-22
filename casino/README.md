@@ -4,18 +4,18 @@ A Sui Move smart contract implementation of a casino game that demonstrates the 
 
 ## 🎰 Features
 
-- **Custom Gold Token**: A fungible token (GOLD) that serves as the casino's currency
+- **Custom Gold Token**: A fungible token (GLD) that serves as the casino's currency
 - **Random Number Generation**: Uses Sui's on-chain randomness for fair game outcomes
-- **Casino Game**: Simple dice roll game where players can wager GOLD tokens
-- **Treasury Management**: Casino maintains a SUI balance and can mint/burn GOLD tokens
+- **Casino Game**: Simple dice roll game where players can wager GLD tokens
+- **Treasury Management**: Casino maintains a SUI balance and can mint/burn GLD tokens
 - **Configurable Win Threshold**: Adjustable difficulty for the casino game
 
 ## 🎮 How It Works
 
-1. **Token Exchange**: Players can exchange SUI for GOLD tokens at the casino
-2. **Game Play**: Players wager GOLD tokens on a random number game
+1. **Token Exchange**: Players can exchange SUI for GLD tokens at the casino
+2. **Game Play**: Players wager GLD tokens on a random number game
 3. **Random Generation**: The casino uses Sui's on-chain randomness to generate fair outcomes
-4. **Payouts**: Winners receive double their wager in GOLD tokens
+4. **Payouts**: Winners receive double their wager in GLD tokens
 
 ## 🔧 Configuration
 
