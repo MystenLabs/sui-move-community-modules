@@ -4,8 +4,8 @@ module module_2::hero {
     public struct Hero has key, store {
         id: UID,
         name: String,
-        power: u64, 
         image_url: String,
+        power: u64, 
     }
 
     #[allow(lint(self_transfer))]
@@ -13,8 +13,8 @@ module module_2::hero {
         let hero = Hero {
             id: object::new(ctx),
             name,
-            power,
             image_url,
+            power,
         };
 
         transfer::public_transfer(hero, ctx.sender());
@@ -25,18 +25,18 @@ module module_2::hero {
     }
     
     // ========= GETTER FUNCTIONS =========
-
     #[test_only]
     public fun hero_name(hero: &Hero): String {
         hero.name
     }
-    #[test_only]
-    public fun hero_power(hero: &Hero): u64 {
-        hero.power
-    }
-    
+
     #[test_only]
     public fun hero_image_url(hero: &Hero): String {
         hero.image_url
+    }
+
+    #[test_only]
+    public fun hero_power(hero: &Hero): u64 {
+        hero.power
     }
 }
