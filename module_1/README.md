@@ -1,28 +1,64 @@
-# Sui 101 - Introduction to Sui
+## Module 1 — Simple NFT (Sui Move)
 
-During this module we will see how easy it is to interact with the Sui network.
+This introductory Sui Move module defines a simple `SimpleNFT` object, demonstrating basic NFT creation and Sui’s display system, which provides metadata (name, description, image_url) that wallets and marketplaces use to display your NFT properly; it’s ready to use—just build, publish, and interact with your SimpleNFT using the provided commands
 
-Some common commands:
+### What's inside
 
-```zsh
-# Creating a new keypair for the cli
-sui client new-address <encryption-scheme> <name>
+- **Module**: `module_1::simple_nft`
+- **Structs**:
+  - **SimpleNFT**: key object with fields `id`, `name`, `description`, and `image_url`.
+  - **SIMPLE_NFT**: drop capability struct for one-time witness pattern.
+  - **Init function**:
+  - `init(otw: SIMPLE_NFT, ctx: &mut TxContext)` — initialize the module with display configuration.
+- **Entry functions**:
+  - `create_simple_nft(name: String, ctx: &mut TxContext)` — create a `SimpleNFT` and transfer it to the sender.
 
-# Provides the link to the Sui faucet
-sui client faucet
+### Build
 
-# Transfer object to different address
-sui client transfer --to <new-owner> --object-id <object-identifier>
+From the repository root:
 
-# Building the contracts
+```bash
 sui move build
+```
 
-# Publishing contracts
+### Publish
+
+From the repository root, publish just this package:
+
+```bash
 sui client publish
 ```
 
-All the commands can be found in the [docs](https://docs.sui.io/references/cli/cheatsheet) or listed with:
+Save the returned `packageId` for subsequent calls.
 
-```zsh
-sui --help
+### Interact (Sui CLI examples)
+
+Replace placeholders like `<PACKAGE_ID>` with real values.
+
+1. Create a simple NFT
+
+```bash
+sui client call \
+  --package <PACKAGE_ID> \
+  --module simple_nft \
+  --function create_simple_nft \
+  --args "My First NFT"
 ```
+
+### Implementation guide (mapping to TODOs)
+
+- **SimpleNFT**:
+  - Contains `id: UID`, `name: String`, `description: String`, and `image_url: String`.
+  - In `create_simple_nft`, construct the SimpleNFT using `object::new(ctx)` for the `id`.
+  - Transfer to sender using `transfer::transfer(simple_nft, ctx.sender())`.
+- **Display system**:
+  - Uses `sui::display::new_with_fields<SimpleNFT>()` with template fields.
+  - Configured in `init` function with `{name}`, `{description}`, `{image_url}` templates.
+- **SIMPLE_NFT (One-Time Witness)**:
+
+  - Uses `SIMPLE_NFT` struct with `drop` capability for secure module initialization.
+
+  ### Troubleshooting
+
+- Make sure Sui CLI is configured and you have the SUI gas coin on the selected network.
+- If you see type or module import errors, ensure you’re on the most recent version of the Sui CLI.

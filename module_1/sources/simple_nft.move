@@ -44,7 +44,7 @@ module module_1::simple_nft {
             id: object::new(ctx),
             name: name,
             description: b"A simple NFT".to_string(),
-            image_url: b"https://i.imgur.com/5LOzwSR.png".to_string(),
+            image_url: b"https://aggregator.walrus-testnet.walrus.space/v1/blobs/16xvpU78unDmVEK2lDeqxhZS5EOG6pol4WsfM-eON_E".to_string(),
         };
 
         transfer::transfer(simple_nft, ctx.sender());
