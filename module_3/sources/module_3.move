@@ -31,7 +31,7 @@ module module_3::hero;
 
     public struct HeroListed has copy, drop {
         // TODO: Add the fields for the HeroListed
-        // 1. The id of the HeroListed
+        // 1. The id of the listing
         // 2. The price of the Hero
         // 3. The seller of the Hero
         // 4. The timestamp of the HeroListed
@@ -39,7 +39,7 @@ module module_3::hero;
 
     public struct HeroBought has copy, drop {
         // TODO: Add the fields for the HeroBought
-        // 1. The id of the HeroBought
+        // 1. The id of the listing
         // 2. The price of the Hero
         // 3. The buyer of the Hero
         // 4. The seller of the Hero

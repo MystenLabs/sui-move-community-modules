@@ -19,14 +19,14 @@ export interface ListHero {
 }
 
 export interface HeroListedEvent {
-  id: string;
+  listing_id: string;
   price: string;
   seller: string;
   timestamp: string;
 }
 
 export interface HeroBoughtEvent {
-  id: string;
+  listing_id: string;
   price: string;
   buyer: string;
   seller: string;
