@@ -121,7 +121,7 @@ export default function EventsHistory({ refreshKey }: EventsHistoryProps) {
                     )}
                     
                     <Text size="3" color="gray" style={{ fontFamily: "monospace" }}>
-                      ID: {eventData.id.slice(0, 8)}...
+                      ID: {eventData.listing_id.slice(0, 8)}...
                     </Text>
                   </Flex>
                 </Flex>

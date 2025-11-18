@@ -32,7 +32,7 @@ export default function SharedObjects({ refreshKey, setRefreshKey }: RefreshProp
   const { data, isPending, error } = useSuiClientQuery(
     "multiGetObjects",
     {
-      ids: listedEvents?.data?.map(event => (event.parsedJson as any).id) || [],
+      ids: listedEvents?.data?.map(event => (event.parsedJson as any).listing_id) || [],
       options: {
         showContent: true,
         showType: true
@@ -40,7 +40,7 @@ export default function SharedObjects({ refreshKey, setRefreshKey }: RefreshProp
     },
     {
       enabled: !!packageId && !!listedEvents?.data?.length,
-      queryKey: ["multiGetObjects", listedEvents?.data?.map(event => (event.parsedJson as any).id), refreshKey],
+      queryKey: ["multiGetObjects", listedEvents?.data?.map(event => (event.parsedJson as any).listing_id), refreshKey],
     }
   );
 
