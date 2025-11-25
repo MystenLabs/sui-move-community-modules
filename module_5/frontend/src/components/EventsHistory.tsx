@@ -12,10 +12,10 @@ export default function EventsHistory({ refreshKey }: RefreshProps) {
         method: "queryEvents",
         params: {
           query: {
-            MoveEventType: `${packageId}::hero::HeroListed`
+            MoveEventType: `${packageId}::hero::HeroListed`,
           },
           limit: 20,
-          order: "descending"
+          order: "descending",
         },
         queryKey: ["queryEvents", packageId, "HeroListed", refreshKey],
         enabled: !!packageId,
@@ -24,15 +24,15 @@ export default function EventsHistory({ refreshKey }: RefreshProps) {
         method: "queryEvents",
         params: {
           query: {
-            MoveEventType: `${packageId}::hero::HeroBought`
+            MoveEventType: `${packageId}::hero::HeroBought`,
           },
           limit: 20,
-          order: "descending"
+          order: "descending",
         },
         queryKey: ["queryEvents", packageId, "HeroBought", refreshKey],
         enabled: !!packageId,
-      }
-    ]
+      },
+    ],
   });
 
   const [listedEventsQuery, boughtEventsQuery] = eventQueries;
@@ -71,27 +71,30 @@ export default function EventsHistory({ refreshKey }: RefreshProps) {
       <Flex direction="column" gap="4">
         <Heading size="6">Recent Events</Heading>
         <Card>
-          <Text color="red">Error loading events: {hasListedError?.message || hasBoughtError?.message}</Text>
+          <Text color="red">
+            Error loading events:{" "}
+            {hasListedError?.message || hasBoughtError?.message}
+          </Text>
         </Card>
       </Flex>
     );
   }
 
   const allEvents = [
-    ...(listedEvents?.data || []).map(event => ({
+    ...(listedEvents?.data || []).map((event) => ({
       ...event,
-      type: 'listed' as const
+      type: "listed" as const,
     })),
-    ...(boughtEvents?.data || []).map(event => ({
+    ...(boughtEvents?.data || []).map((event) => ({
       ...event,
-      type: 'bought' as const
-    }))
+      type: "bought" as const,
+    })),
   ].sort((a, b) => Number(b.timestampMs) - Number(a.timestampMs));
 
   return (
     <Flex direction="column" gap="4">
       <Heading size="6">Recent Events ({allEvents.length})</Heading>
-      
+
       {allEvents.length === 0 ? (
         <Card>
           <Text>No events found</Text>
@@ -100,15 +103,21 @@ export default function EventsHistory({ refreshKey }: RefreshProps) {
         <Grid columns="1" gap="3">
           {allEvents.map((event, index) => {
             const eventData = event.parsedJson as any;
-            
+
             if (!eventData) return null;
-            
+
             return (
-              <Card key={`${event.id.txDigest}-${index}`} style={{ padding: "16px" }}>
+              <Card
+                key={`${event.id.txDigest}-${index}`}
+                style={{ padding: "16px" }}
+              >
                 <Flex direction="column" gap="2">
                   <Flex align="center" gap="3">
-                    <Badge color={event.type === 'listed' ? 'blue' : 'green'} size="2">
-                      {event.type === 'listed' ? 'Hero Listed' : 'Hero Bought'}
+                    <Badge
+                      color={event.type === "listed" ? "blue" : "green"}
+                      size="2"
+                    >
+                      {event.type === "listed" ? "Hero Listed" : "Hero Bought"}
                     </Badge>
                     {event.timestampMs && (
                       <Text size="3" color="gray">
@@ -116,38 +125,46 @@ export default function EventsHistory({ refreshKey }: RefreshProps) {
                       </Text>
                     )}
                   </Flex>
-                  
+
                   <Flex align="center" gap="4" wrap="wrap">
                     {eventData.price && (
                       <Text size="3">
-                        <strong>Price:</strong> {formatPrice(eventData.price)} SUI
+                        <strong>Price:</strong> {formatPrice(eventData.price)}{" "}
+                        SUI
                       </Text>
                     )}
-                    
-                    {event.type === 'listed' ? (
+
+                    {event.type === "listed" ? (
                       eventData.seller && (
                         <Text size="3">
-                          <strong>Seller:</strong> {formatAddress(eventData.seller)}
+                          <strong>Seller:</strong>{" "}
+                          {formatAddress(eventData.seller)}
                         </Text>
                       )
                     ) : (
                       <Flex gap="4">
                         {eventData.buyer && (
                           <Text size="3">
-                            <strong>Buyer:</strong> {formatAddress(eventData.buyer)}
+                            <strong>Buyer:</strong>{" "}
+                            {formatAddress(eventData.buyer)}
                           </Text>
                         )}
                         {eventData.seller && (
                           <Text size="3">
-                            <strong>Seller:</strong> {formatAddress(eventData.seller)}
+                            <strong>Seller:</strong>{" "}
+                            {formatAddress(eventData.seller)}
                           </Text>
                         )}
                       </Flex>
                     )}
-                    
+
                     {eventData.listing_id && (
-                      <Text size="3" color="gray" style={{ fontFamily: "monospace" }}>
-                        ID: {eventData.listing_id.slice(0, 8)}...
+                      <Text
+                        size="3"
+                        color="gray"
+                        style={{ fontFamily: "monospace" }}
+                      >
+                        ID: {eventData.listing_id?.slice(0, 8)}...
                       </Text>
                     )}
                   </Flex>
