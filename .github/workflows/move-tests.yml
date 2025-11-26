@@ -14,13 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Homebrew
+      - name: Install Sui CLI
         run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          echo "/home/linuxbrew/.linuxbrew/bin" >> $GITHUB_PATH
-
-      - name: Install Sui using Homebrew
-        run: brew install sui
+          wget https://github.com/MystenLabs/sui/releases/download/testnet-v1.61.2/sui-testnet-v1.61.2-ubuntu-x86_64.tgz
+          tar -xvzf sui-testnet-v1.61.2-ubuntu-x86_64.tgz
+          sudo mv sui /usr/local/bin/
+          sui --version
       
       - name: Build Move project
         run: sui move build
